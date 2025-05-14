@@ -21,6 +21,10 @@ function handleScroll(event) {
     photosStore.loadMorePhotos();
   }
 }
+
+function thClickHandler(val) {
+  photosStore.setSort(val);
+}
 </script>
 
 <template>
@@ -31,24 +35,27 @@ function handleScroll(event) {
           <th
             class="bg-(--color-dark) sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm"
           >
-            <div class="flex items-center cursor-pointer select-none">
+            <div class="flex items-center cursor-pointer select-none" @click="thClickHandler('id')">
               ID
-              <IconArrowDown class="shrink-0" />
-              <IconArrowUp v-if="false"/>
+              <div v-if="photosStore.sort === 'id'" class="shrink-0">
+                <Component :is="photosStore.order === 'ascending' ? IconArrowUp : IconArrowDown" />
+              </div>
             </div>
           </th>
           <th class="bg-(--color-dark) sticky top-0 w-[15%] px-2 py-3 text-left text-sm">
-            <div class="flex items-center cursor-pointer select-none">
+            <div class="flex items-center cursor-pointer select-none" @click="thClickHandler('albumId')">
               Альбом
-              <IconArrowDown class="shrink-0"/>
-              <IconArrowUp v-if="false"/>
+              <div v-if="photosStore.sort === 'albumId'" class="shrink-0">
+                <Component :is="photosStore.order === 'ascending' ? IconArrowUp : IconArrowDown" />
+              </div>
             </div>
           </th>
           <th class="bg-(--color-dark) sticky top-0 w-[20%] px-2 py-3 text-left text-sm">
-            <div class="flex items-center cursor-pointer select-none">
+            <div class="flex items-center cursor-pointer select-none" @click="thClickHandler('title')">
               Название
-              <IconArrowDown class="shrink-0"/>
-              <IconArrowUp v-if="false"/>
+              <div v-if="photosStore.sort === 'title'" class="shrink-0">
+                <Component :is="photosStore.order === 'ascending' ? IconArrowUp : IconArrowDown" />
+              </div>
             </div>
           </th>
           <th class="bg-(--color-dark) sticky top-0 w-[20%] px-2 py-3 text-left text-sm select-none">Ссылка</th>
@@ -59,7 +66,7 @@ function handleScroll(event) {
       </thead>
       <tbody>
         <tr
-          v-for="photo in photosStore.photos"
+          v-for="photo in photosStore.photosFiltered"
           :key="photo.id"
           class="odd:bg-gray-50 even:bg-white"
         >

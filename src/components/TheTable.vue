@@ -7,7 +7,7 @@ import IconArrowUp from '@/components/icons/IconArrowUp.vue';
 const photosStore = usePhotosStore();
 
 onMounted(() => {
-  photosStore.loadMorePhotos(); // загрузить первые 30 записей при загрузке
+  photosStore.loadPhotos(); // Просто вызываем loadPhotos вместо loadMorePhotos
 });
 
 function handleScroll(event) {
@@ -15,10 +15,9 @@ function handleScroll(event) {
   // clientHeight - высота видимой части - блока с таблицей (600px)
   // scrollHeight - высота всей таблицы, включая скрытую часть (1124px)
   // el.scrollTop + el.clientHeight === el.scrollHeight когда прокрутили до конца
-
   const el = event.target;
   if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
-    photosStore.loadMorePhotos();
+    photosStore.loadPhotos(); // И здесь тоже
   }
 }
 
@@ -32,41 +31,51 @@ function thClickHandler(val) {
     <table class="h-full w-full table-fixed border-collapse">
       <thead class="bg-(--color-dark) sticky top-0 z-10">
         <tr>
-          <th
-            class="bg-(--color-dark) sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm"
-          >
-            <div class="flex items-center cursor-pointer select-none" @click="thClickHandler('id')">
+          <th class="bg-(--color-dark) sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm">
+            <div class="flex cursor-pointer select-none items-center" @click="thClickHandler('id')">
               ID
               <div v-if="photosStore.sort === 'id'" class="shrink-0">
-                <Component :is="photosStore.order === 'ascending' ? IconArrowUp : IconArrowDown" />
+                <Component :is="photosStore.order === 'asc' ? IconArrowUp : IconArrowDown" />
               </div>
             </div>
           </th>
           <th class="bg-(--color-dark) sticky top-0 w-[15%] px-2 py-3 text-left text-sm">
-            <div class="flex items-center cursor-pointer select-none" @click="thClickHandler('albumId')">
+            <div
+              class="flex cursor-pointer select-none items-center"
+              @click="thClickHandler('albumId')"
+            >
               Альбом
               <div v-if="photosStore.sort === 'albumId'" class="shrink-0">
-                <Component :is="photosStore.order === 'ascending' ? IconArrowUp : IconArrowDown" />
+                <Component :is="photosStore.order === 'asc' ? IconArrowUp : IconArrowDown" />
               </div>
             </div>
           </th>
           <th class="bg-(--color-dark) sticky top-0 w-[20%] px-2 py-3 text-left text-sm">
-            <div class="flex items-center cursor-pointer select-none" @click="thClickHandler('title')">
+            <div
+              class="flex cursor-pointer select-none items-center"
+              @click="thClickHandler('title')"
+            >
               Название
               <div v-if="photosStore.sort === 'title'" class="shrink-0">
-                <Component :is="photosStore.order === 'ascending' ? IconArrowUp : IconArrowDown" />
+                <Component :is="photosStore.order === 'asc' ? IconArrowUp : IconArrowDown" />
               </div>
             </div>
           </th>
-          <th class="bg-(--color-dark) sticky top-0 w-[20%] px-2 py-3 text-left text-sm select-none">Ссылка</th>
-          <th class="bg-(--color-dark) sticky top-0 w-[20%] py-3 pl-2 pr-5 text-left text-sm select-none">
+          <th
+            class="bg-(--color-dark) sticky top-0 w-[20%] select-none px-2 py-3 text-left text-sm"
+          >
+            Ссылка
+          </th>
+          <th
+            class="bg-(--color-dark) sticky top-0 w-[20%] select-none py-3 pl-2 pr-5 text-left text-sm"
+          >
             Миниатюра
           </th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="photo in photosStore.photosFiltered"
+          v-for="photo in photosStore.photos"
           :key="photo.id"
           class="odd:bg-gray-50 even:bg-white"
         >

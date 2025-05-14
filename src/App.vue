@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+import TheHeader from './components/TheHeader.vue';
+import TheTable from './components/TheTable.vue';
+</script>
 
 <template>
-  <h1 class="text-3xl">PhotoScope — Галерея альбомов</h1>
+  <TheHeader />
+  <TheTable />
 </template>
 
-<style scoped lang="postcss"></style>
+<style scoped></style>

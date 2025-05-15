@@ -28,10 +28,10 @@ function thClickHandler(val) {
 
 <template>
   <div v-if="photosStore.photos.length > 0" class="mx-auto h-[600px] w-[600px] overflow-y-auto bg-white" @scroll="handleScroll">
-    <table class="h-full w-full table-fixed border-collapse">
-      <thead class="bg-(--color-secondary) sticky top-0 z-10">
+    <table class="h-full w-full table-fixed border-collapse text-black dark:text-white">
+      <thead class="bg-secondary dark:bg-secondary-dark sticky top-0 z-10">
         <tr>
-          <th class="bg-(--color-secondary) sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm">
+          <th class="bg-secondary dark:bg-secondary-dark sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm">
             <div class="flex cursor-pointer select-none items-center" @click="thClickHandler('id')">
               ID
               <div v-if="photosStore.sort === 'id'" class="shrink-0">
@@ -39,18 +39,18 @@ function thClickHandler(val) {
               </div>
             </div>
           </th>
-          <th class="bg-(--color-secondary) sticky top-0 w-[15%] px-2 py-3 text-left text-sm">
+          <th class="bg-secondary dark:bg-secondary-dark sticky top-0 w-[15%] px-2 py-3 text-left text-sm">
             <div
               class="flex cursor-pointer select-none items-center"
               @click="thClickHandler('albumId')"
             >
               Альбом
               <div v-if="photosStore.sort === 'albumId'" class="shrink-0">
-                <Component :is="photosStore.order === 'asc' ? IconArrowUp : IconArrowDown" />
+                <Component :is="photosStore.order === 'asc' ? IconArrowUp : IconArrowDown"/>
               </div>
             </div>
           </th>
-          <th class="bg-(--color-secondary) sticky top-0 w-[20%] px-2 py-3 text-left text-sm">
+          <th class="bg-secondary dark:bg-secondary-dark sticky top-0 w-[20%] px-2 py-3 text-left text-sm">
             <div
               class="flex cursor-pointer select-none items-center"
               @click="thClickHandler('title')"
@@ -62,12 +62,12 @@ function thClickHandler(val) {
             </div>
           </th>
           <th
-            class="bg-(--color-secondary) sticky top-0 w-[20%] select-none px-2 py-3 text-left text-sm"
+            class="bg-secondary dark:bg-secondary-dark sticky top-0 w-[20%] select-none px-2 py-3 text-left text-sm"
           >
             Ссылка
           </th>
           <th
-            class="bg-(--color-secondary) sticky top-0 w-[20%] select-none py-3 pl-2 pr-5 text-left text-sm"
+            class="bg-secondary dark:bg-secondary-dark sticky top-0 w-[20%] select-none py-3 pl-2 pr-5 text-left text-sm"
           >
             Миниатюра
           </th>
@@ -77,7 +77,7 @@ function thClickHandler(val) {
         <tr
           v-for="photo in photosStore.photos"
           :key="photo.id"
-          class="odd:bg-gray-50 even:bg-white"
+          class="odd:bg-gray-50 even:bg-white dark:odd:bg-[#060504] dark:even:bg-black"
         >
           <td class="truncate py-2 pl-5 pr-2 text-sm">{{ photo.id }}</td>
           <td class="truncate px-2 py-2 text-sm">{{ photo.albumId }}</td>

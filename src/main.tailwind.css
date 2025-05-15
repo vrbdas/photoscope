@@ -1,12 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
 
+/* настройка чтобы dark:стиль на каждом элементе применялся при <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: 'Inter', sans-serif;
   --font-logo: 'Dancing Script', cursive;
   --color-primary: #ddbeaa;
   --color-secondary: #bbc6c8;
   --color-primary-hover: #d1b5a2;
+
+  --color-primary-dark: #224155;
+  --color-secondary-dark: #443937;
+  --color-primary-hover-dark: #274a62;
 }
 
 @layer base {
@@ -17,6 +24,10 @@
 
   body {
     background-color: #e5e3e4;
+  }
+
+  .dark body {
+    background-color: #1a1c1b;
   }
 }
 

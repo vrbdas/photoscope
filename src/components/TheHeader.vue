@@ -40,8 +40,8 @@ onMounted(() => {
     <div class="mb-10 flex flex-col items-center gap-10 pt-10">
       <div class="relative flex w-[600px] items-center justify-center">
         <div class="flex flex-col">
-          <h1 class="font-logo select-none text-6xl font-bold">PhotoScope</h1>
-          <span class="text-(--color-primary) select-none text-sm uppercase tracking-widest"
+          <h1 class="font-logo select-none text-6xl font-bold dark:text-white">PhotoScope</h1>
+          <span class="text-primary select-none text-sm uppercase tracking-widest dark:text-primary-dark"
             >Галерея фотографий</span
           >
         </div>
@@ -51,7 +51,7 @@ onMounted(() => {
         <label class="relative grow">
           <input
             v-model="input"
-            class="h-[40px] w-full border-0 bg-white px-5 focus:outline-0"
+            class="h-[40px] w-full border-0 bg-white text-black dark:bg-black dark:text-white px-5 focus:outline-0"
             type="text"
             placeholder="Введите ID альбомов через пробел или запятую"
             @focus="errorShow = false"
@@ -64,7 +64,7 @@ onMounted(() => {
         </label>
         <button
           :disabled="photosStore.loading"
-          class="bg-(--color-primary) disabled:bg-(--color-secondary) hover:bg-(--color-primary-hover) flex h-[40px] w-[100px] cursor-pointer items-center justify-center font-bold transition disabled:cursor-auto disabled:text-gray-500"
+          class="bg-primary disabled:bg-secondary hover:bg-primary-hover flex h-[40px] w-[100px] cursor-pointer items-center justify-center font-bold transition disabled:cursor-auto disabled:text-gray-500 dark:bg-primary-dark dark:hover:bg-primary-hover-dark dark:text-white"
           @click="search"
         >
           <AppSpinner v-if="photosStore.loading" />

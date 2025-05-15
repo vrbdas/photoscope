@@ -1,8 +1,21 @@
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { defineStore } from 'pinia';
+import { useDark } from '@vueuse/core';
 
 export const useThemeStore = defineStore('themeStore', () => {
-  const darkTheme = ref(false);
+  // isDark добавляет в <html class="dark">
+  const isDark = useDark();
 
-  return { darkTheme };
+  const darkTheme = ref(isDark.value);
+
+  // синхронизирует darkTheme с isDark
+  watch(isDark, (newVal) => {
+    darkTheme.value = newVal;
+  });
+
+  function toggleTheme() {
+    isDark.value = !isDark.value;
+  }
+
+  return { darkTheme, toggleTheme };
 });

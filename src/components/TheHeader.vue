@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { usePhotosStore } from '@/stores/photosStore.js';
+import AppSwitch from './AppSwitch.vue';
+import AppSpinner from './AppSpinner.vue';
 
 const photosStore = usePhotosStore();
 const input = ref('');
@@ -12,33 +14,44 @@ function search() {
   const isValid = pattern.test(input.value.trim());
   if (isValid) {
     errorShow.value = false;
+    localStorageSet(); // сохраняет ввод в localStorage
     photosStore.loadAllPhotos(input.value);
   } else {
     errorShow.value = true;
   }
 }
+
+function localStorageSet() {
+  if (input.value.length > 0) {
+    localStorage.setItem('albumIds', JSON.stringify(input.value));
+  } else {
+    localStorage.removeItem('albumIds');
+  }
+}
+
+// при перезагрузке восстановится ввод в поле поиска
+onMounted(() => {
+  input.value = JSON.parse(localStorage.getItem('albumIds') || '""');
+});
 </script>
 
 <template>
   <div class="container mx-auto">
     <div class="mb-10 flex flex-col items-center gap-10 pt-10">
-      <div class="flex items-center justify-center gap-4">
-        <h1 class="text-4xl font-bold">PhotoScope — Галерея фотографий</h1>
-        <label class="relative inline-block h-[34px] w-[60px]">
-          <input type="checkbox" class="peer hidden" />
-          <div
-            class="duration-400 bg-(--color-dark) absolute bottom-0 left-0 right-0 top-0 cursor-pointer rounded-full transition peer-checked:bg-neutral-900 peer-focus:ring-2 peer-focus:ring-neutral-900"
-          ></div>
-          <div
-            class="duration-400 absolute bottom-1 left-1 h-[26px] w-[26px] cursor-pointer rounded-full bg-white transition peer-checked:translate-x-[26px]"
-          ></div>
-        </label>
+      <div class="relative flex w-[600px] items-center justify-center">
+        <div class="flex flex-col">
+          <h1 class="font-logo select-none text-6xl font-bold">PhotoScope</h1>
+          <span class="text-(--color-primary) select-none text-sm uppercase tracking-widest"
+            >Галерея фотографий</span
+          >
+        </div>
+        <AppSwitch />
       </div>
       <div class="flex w-[600px] items-center justify-center gap-[20px]">
         <label class="relative grow">
           <input
             v-model="input"
-            class="w-full border-0 bg-white px-5 py-2 focus:outline-0"
+            class="h-[40px] w-full border-0 bg-white px-5 focus:outline-0"
             type="text"
             placeholder="Введите ID альбомов через пробел или запятую"
             @focus="errorShow = false"
@@ -49,8 +62,13 @@ function search() {
             >
           </Transition>
         </label>
-        <button class="bg-(--color-light) cursor-pointer px-5 py-2 font-bold" @click="search">
-          Поиск
+        <button
+          :disabled="photosStore.loading"
+          class="bg-(--color-primary) disabled:bg-(--color-secondary) hover:bg-(--color-primary-hover) flex h-[40px] w-[100px] cursor-pointer items-center justify-center font-bold transition disabled:cursor-auto disabled:text-gray-500"
+          @click="search"
+        >
+          <AppSpinner v-if="photosStore.loading" />
+          <span v-else>Поиск</span>
         </button>
       </div>
     </div>

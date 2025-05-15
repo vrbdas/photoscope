@@ -29,9 +29,9 @@ function thClickHandler(val) {
 <template>
   <div v-if="photosStore.photos.length > 0" class="mx-auto h-[600px] w-[600px] overflow-y-auto bg-white" @scroll="handleScroll">
     <table class="h-full w-full table-fixed border-collapse">
-      <thead class="bg-(--color-dark) sticky top-0 z-10">
+      <thead class="bg-(--color-secondary) sticky top-0 z-10">
         <tr>
-          <th class="bg-(--color-dark) sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm">
+          <th class="bg-(--color-secondary) sticky top-0 w-[15%] py-3 pl-5 pr-2 text-left text-sm">
             <div class="flex cursor-pointer select-none items-center" @click="thClickHandler('id')">
               ID
               <div v-if="photosStore.sort === 'id'" class="shrink-0">
@@ -39,7 +39,7 @@ function thClickHandler(val) {
               </div>
             </div>
           </th>
-          <th class="bg-(--color-dark) sticky top-0 w-[15%] px-2 py-3 text-left text-sm">
+          <th class="bg-(--color-secondary) sticky top-0 w-[15%] px-2 py-3 text-left text-sm">
             <div
               class="flex cursor-pointer select-none items-center"
               @click="thClickHandler('albumId')"
@@ -50,7 +50,7 @@ function thClickHandler(val) {
               </div>
             </div>
           </th>
-          <th class="bg-(--color-dark) sticky top-0 w-[20%] px-2 py-3 text-left text-sm">
+          <th class="bg-(--color-secondary) sticky top-0 w-[20%] px-2 py-3 text-left text-sm">
             <div
               class="flex cursor-pointer select-none items-center"
               @click="thClickHandler('title')"
@@ -62,12 +62,12 @@ function thClickHandler(val) {
             </div>
           </th>
           <th
-            class="bg-(--color-dark) sticky top-0 w-[20%] select-none px-2 py-3 text-left text-sm"
+            class="bg-(--color-secondary) sticky top-0 w-[20%] select-none px-2 py-3 text-left text-sm"
           >
             Ссылка
           </th>
           <th
-            class="bg-(--color-dark) sticky top-0 w-[20%] select-none py-3 pl-2 pr-5 text-left text-sm"
+            class="bg-(--color-secondary) sticky top-0 w-[20%] select-none py-3 pl-2 pr-5 text-left text-sm"
           >
             Миниатюра
           </th>

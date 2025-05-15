@@ -85,13 +85,22 @@ export const usePhotosStore = defineStore('photosStore', () => {
   // загрузка всех фото с указанными albumId
   async function loadAllPhotos(input) {
     finished = true;
+    loading.value = true;
+
     // создает массив разделяя ввод через запятые или пробелы, потом добавляет к каждому элементу строку для запроса (к первому начинающуюся с ?)
     const inputArr = input.split(/[ ,]+/).map((value, index) => {
       return index === 0 ? `?albumId=${value}` : `&albumId=${value}`;
     });
     const inputStr = input ? inputArr.join('') : ''; // если input пустой, показывает все записи
-    const response = await axios.get(`${url}${inputStr}`);
-    photos.value = response.data;
+
+    try {
+      const response = await axios.get(`${url}${inputStr}`);
+      photos.value = response.data;
+    } catch (err) {
+      console.error('Ошибка загрузки фото:', err);
+    } finally {
+      loading.value = false;
+    }
   }
 
   return {

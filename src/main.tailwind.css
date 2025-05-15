@@ -3,8 +3,8 @@
 
 @theme {
   --font-sans: 'Inter', sans-serif;
-  --color-light: #DDBEAA;
-  --color-dark: #BBC6C8;
+  --color-light: #ddbeaa;
+  --color-dark: #bbc6c8;
 }
 
 @layer base {
@@ -14,7 +14,7 @@
   }
 
   body {
-    background-color: #E5E3E4;
+    background-color: #e5e3e4;
   }
 }
 
@@ -36,5 +36,15 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background: #6c6c6c;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
   }
 }

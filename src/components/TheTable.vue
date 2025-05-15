@@ -6,8 +6,8 @@ import IconArrowUp from '@/components/icons/IconArrowUp.vue';
 
 const photosStore = usePhotosStore();
 
-onMounted(() => {
-  photosStore.loadPhotos(); // Просто вызываем loadPhotos вместо loadMorePhotos
+onMounted(() => { // при монтировании подгружает первые 30 фото
+  photosStore.loadPhotos();
 });
 
 function handleScroll(event) {
@@ -17,7 +17,7 @@ function handleScroll(event) {
   // el.scrollTop + el.clientHeight === el.scrollHeight когда прокрутили до конца
   const el = event.target;
   if (el.scrollTop + el.clientHeight >= el.scrollHeight - 10) {
-    photosStore.loadPhotos(); // И здесь тоже
+    photosStore.loadPhotos();
   }
 }
 
@@ -27,7 +27,7 @@ function thClickHandler(val) {
 </script>
 
 <template>
-  <div class="mx-auto h-[600px] w-[600px] overflow-y-auto bg-white" @scroll="handleScroll">
+  <div v-if="photosStore.photos.length > 0" class="mx-auto h-[600px] w-[600px] overflow-y-auto bg-white" @scroll="handleScroll">
     <table class="h-full w-full table-fixed border-collapse">
       <thead class="bg-(--color-dark) sticky top-0 z-10">
         <tr>
@@ -94,6 +94,7 @@ function thClickHandler(val) {
       </tbody>
     </table>
   </div>
+  <div v-else class="w-full h-full flex items-center justify-center">Альбомы не найдены</div>
 </template>
 
 <style scoped></style>

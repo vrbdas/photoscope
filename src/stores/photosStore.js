@@ -12,17 +12,36 @@ export const usePhotosStore = defineStore('photosStore', () => {
   let finished = false;
   const limit = 30;
   const url = 'https://jsonplaceholder.typicode.com/photos';
+  const sortFunctions = {
+    id: {
+      asc: (a, b) => a.id - b.id,
+      des: (a, b) => b.id - a.id,
+    },
+    albumId: {
+      asc: (a, b) => a.albumId - b.albumId,
+      des: (a, b) => b.albumId - a.albumId,
+    },
+    title: {
+      asc: (a, b) => a.title.localeCompare(b.title),
+      des: (a, b) => b.title.localeCompare(a.title),
+    }
+  };
 
-  async function loadPhotos(reset = false) {
-    if (loading.value || (finished && !reset)) return;
+  // ленивая загрузка, работает до нажатия на кнопку поиск
+  async function loadPhotos(reset = false) { // сброс при нажатии на фильтр
+    if (loading.value || finished) return;
 
     if (reset) {
       photos.value = [];
       page = 0;
-      finished = false;
     }
 
     loading.value = true;
+
+    // GET https://jsonplaceholder.typicode.com/photos?_start=0&_limit=30&_sort=id&_order=desc
+    //_sort, _order - сортировка
+    // _limit, _start - пагинация
+
     try {
       const params = {
         _start: page * limit,
@@ -47,14 +66,32 @@ export const usePhotosStore = defineStore('photosStore', () => {
     }
   }
 
+  // обработка нажатия на шапку таблицы
   function setSort(val) {
     if (sort.value === val) {
-      order.value = order.value === 'asc' ? 'des' : 'asc';
+      order.value = order.value === 'asc' ? 'des' : 'asc'; // повторное нажатие на тот же заголовок меняет порядок сортировки
     } else {
       sort.value = val;
       order.value = 'asc';
     }
-    loadPhotos(true);
+
+    if (!finished) {
+      loadPhotos(true); // пока не нажата кнопка поиск или не подгружены все 5000 фото, работает ленивая загрузка, сортировка на сервере
+    } else { // когда загружены все фото или результаты поиска по альбомам, то сортирует уже их
+      photos.value.sort(sortFunctions[sort.value][order.value]);
+    };
+  }
+
+  // загрузка всех фото с указанными albumId
+  async function loadAllPhotos(input) {
+    finished = true;
+    // создает массив разделяя ввод через запятые или пробелы, потом добавляет к каждому элементу строку для запроса (к первому начинающуюся с ?)
+    const inputArr = input.split(/[ ,]+/).map((value, index) => {
+      return index === 0 ? `?albumId=${value}` : `&albumId=${value}`;
+    });
+    const inputStr = input ? inputArr.join('') : ''; // если input пустой, показывает все записи
+    const response = await axios.get(`${url}${inputStr}`);
+    photos.value = response.data;
   }
 
   return {
@@ -64,5 +101,6 @@ export const usePhotosStore = defineStore('photosStore', () => {
     setSort,
     sort,
     order,
+    loadAllPhotos,
   };
 });

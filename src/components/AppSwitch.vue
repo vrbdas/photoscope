@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
-import IconSun from './icons/IconSun.vue';
-import IconMoon from './icons/IconMoon.vue';
+import IconSun from '@/components/icons/IconSun.vue';
+import IconMoon from '@/components/icons/IconMoon.vue';
 import { useThemeStore } from '@/stores/themeStore.js';
 
 const themeStore = useThemeStore();

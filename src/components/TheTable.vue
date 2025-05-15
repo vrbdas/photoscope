@@ -94,7 +94,7 @@ function thClickHandler(val) {
       </tbody>
     </table>
   </div>
-  <div v-else class="w-full h-full flex items-center justify-center">Альбомы не найдены</div>
+  <div v-else-if="!photosStore.loading" class="w-full h-full flex items-center justify-center">Альбомы не найдены</div>
 </template>
 
 <style scoped></style>

@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
 import { usePhotosStore } from '@/stores/photosStore.js';
-import AppSwitch from './AppSwitch.vue';
-import AppSpinner from './AppSpinner.vue';
+import AppSwitch from '@/components/AppSwitch.vue';
+import AppSpinner from '@/components/AppSpinner.vue';
 
 const photosStore = usePhotosStore();
 const input = ref('');

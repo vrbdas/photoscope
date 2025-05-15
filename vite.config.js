@@ -6,6 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  base: '/photoscope/',
   plugins: [
     vue(), 
     vueDevTools(),

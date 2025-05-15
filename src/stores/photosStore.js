@@ -50,7 +50,10 @@ export const usePhotosStore = defineStore('photosStore', () => {
         _order: order.value === 'asc' ? 'asc' : 'desc',
       };
 
-      const response = await axios.get(url, { params });
+      const response = await axios.get(url, {
+        params,
+        timeout: 20000,
+      });
       const newPhotos = response.data;
 
       if (newPhotos.length === 0) {
@@ -60,7 +63,11 @@ export const usePhotosStore = defineStore('photosStore', () => {
         page++;
       }
     } catch (err) {
-      console.error('Ошибка загрузки фото:', err);
+      if (err.code === 'ECONNABORTED') {
+        console.error('Ошибка загрузки фото: Таймаут запроса');
+      } else {
+        console.error('Ошибка загрузки фото:', err);
+      }
     } finally {
       loading.value = false;
     }
@@ -94,10 +101,16 @@ export const usePhotosStore = defineStore('photosStore', () => {
     const inputStr = input ? inputArr.join('') : ''; // если input пустой, показывает все записи
 
     try {
-      const response = await axios.get(`${url}${inputStr}`);
+      const response = await axios.get(`${url}${inputStr}`, {
+        timeout: 20000,
+      });
       photos.value = response.data;
     } catch (err) {
-      console.error('Ошибка загрузки фото:', err);
+      if (err.code === 'ECONNABORTED') {
+        console.error('Ошибка загрузки фото: Таймаут запроса');
+      } else {
+        console.error('Ошибка загрузки фото:', err);
+      }
     } finally {
       loading.value = false;
     }

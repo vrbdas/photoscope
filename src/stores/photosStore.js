@@ -52,7 +52,6 @@ export const usePhotosStore = defineStore('photosStore', () => {
 
       const response = await axios.get(url, {
         params,
-        timeout: 20000,
       });
       const newPhotos = response.data;
 
@@ -76,7 +75,7 @@ export const usePhotosStore = defineStore('photosStore', () => {
   // обработка нажатия на шапку таблицы
   function setSort(val) {
     if (sort.value === val) {
-      order.value = order.value === 'asc' ? 'des' : 'asc'; // повторное нажатие на тот же заголовок меняет порядок сортировки
+      order.value = order.value === 'asc' ? 'desc' : 'asc'; // повторное нажатие на тот же заголовок меняет порядок сортировки
     } else {
       sort.value = val;
       order.value = 'asc';
@@ -101,9 +100,7 @@ export const usePhotosStore = defineStore('photosStore', () => {
     const inputStr = input ? inputArr.join('') : ''; // если input пустой, показывает все записи
 
     try {
-      const response = await axios.get(`${url}${inputStr}`, {
-        timeout: 20000,
-      });
+      const response = await axios.get(`${url}${inputStr}`, {});
       photos.value = response.data;
     } catch (err) {
       if (err.code === 'ECONNABORTED') {

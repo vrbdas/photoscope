@@ -24,11 +24,12 @@ export const usePhotosStore = defineStore('photosStore', () => {
     title: {
       asc: (a, b) => a.title.localeCompare(b.title),
       des: (a, b) => b.title.localeCompare(a.title),
-    }
+    },
   };
 
   // ленивая загрузка, работает до нажатия на кнопку поиск
-  async function loadPhotos(reset = false) { // сброс при нажатии на фильтр
+  async function loadPhotos(reset = false) {
+    // сброс при нажатии на фильтр
     if (loading.value || finished) return;
 
     if (reset) {
@@ -83,9 +84,10 @@ export const usePhotosStore = defineStore('photosStore', () => {
 
     if (!finished) {
       loadPhotos(true); // пока не нажата кнопка поиск или не подгружены все 5000 фото, работает ленивая загрузка, сортировка на сервере
-    } else { // когда загружены все фото или результаты поиска по альбомам, то сортирует уже их
+    } else {
+      // когда загружены все фото или результаты поиска по альбомам, то сортирует уже их
       photos.value.sort(sortFunctions[sort.value][order.value]);
-    };
+    }
   }
 
   // загрузка всех фото с указанными albumId

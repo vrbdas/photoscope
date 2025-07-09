@@ -18,6 +18,6 @@
 - Спиннер загрузки  
 - Фильтрация по нескольким альбомам с поддержкой запросов с несколькими параметрами `albumId`
 
-[Демо проекта](https://devartmax.ru/photoscope/)
+[Демо проекта](https://vrbdas.github.io/vue-bambit/)
 
 _Примечание:_ API jsonplaceholder иногда работает нестабильно, в будущем можно заменить на Firebase Realtime Database.
